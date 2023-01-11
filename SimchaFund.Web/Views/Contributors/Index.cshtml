@@ -23,15 +23,24 @@
                     <th>Always Include</th>
                     <th>Actions</th>
                 </tr>
-                @foreach (var contributor in Model.Contributors)
+                @foreach (var c in Model.Contributors)
                 {
                     <tr>
-                        <td><button class="btn btn-success deposit-button" data-contribid="1003">Deposit</button></td>
-                        <td>@contributor.FirstName @contributor.LastName</td>
-                        <td>@contributor.Cell</td>
+                        <td><button class="btn btn-success deposit-button" data-contribid="@c.Id">Deposit</button></td>
+                        <td>@c.FirstName @c.LastName</td>
+                        <td>@c.Cell</td>
                         <td>Balance</td>
-                        <td>Always Include</td>
-                        <td>Show History</td>
+                        <td style="text-align: center;">
+                            <span style="font-size: 25px;" class="@(c.AlwaysInclude ? "oi oi-check":"" )"></span>
+                        </td>
+                        <td>
+                            <a href="/contributors/history?contribid=@c.Id" class="btn btn-primary">Show History</a>
+                            <button data-first-name="@c.FirstName" data-last-name="@c.LastName"
+                                    data-cell="@c.Cell" data-id="@c.Id" data-always-include="@c.AlwaysInclude" data-date="@c.Date.ToString("yyyy-MM-dd")"
+                                    class="btn btn-danger edit-contrib">
+                                Edit
+                            </button>
+                        </td>
                     </tr>
                 }
             </table>
@@ -44,7 +53,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="post" action="/contributors/new">
+                        <form id="add-update-contributor" method="post" action="/contributors/new">
+                            <input type="hidden" id="contributor_id" name="id" value="" />
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="form-group col-md-6">
@@ -61,10 +71,10 @@
                                         <label>Cell Number</label>
                                         <input class="form-control" id="contributor_cell" name="cell" placeholder="Cell Number" type="text">
                                     </div>
-                                    @*<div class="form-group col-md-6" id="initialDepositDiv">
+                                    <div class="form-group col-md-6" id="initialDepositDiv">
                                         <label>Initial Deposit</label>
                                         <input type="text" class="form-control" name="initialDeposit" placeholder="Initial Deposit">
-                                    </div>*@
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
@@ -88,6 +98,36 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade deposit" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Deposit for <span id="deposit-name"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" action="/contributors/deposit">
+                        <input type="hidden" name="contributorId" value="" />
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Amount</label>
+                                <input class="form-control" name="amount" placeholder="Deposit Amount" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" name="date" class="form-control" id="datepicker">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <input class="btn btn-primary" name="commit" type="submit" value="Save">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </main>
 </div>
 @section Scripts {

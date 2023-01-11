@@ -19,10 +19,31 @@ namespace SimchaFund.Web.Controllers
                 Contributors = mgr.GetContributors()
             });
         }
+        [HttpPost]
         public IActionResult New(Contributor contributor)
         {
             var mgr = new SimchaFundMgr(_connectionString);
             mgr.AddContributor(contributor);
+            return Redirect("/contributors");
+        }
+
+        [HttpPost]
+        public IActionResult Deposit(Deposit deposit)
+        {
+            var mgr = new SimchaFundMgr(_connectionString);
+            mgr.AddDeposit(deposit);
+            return Redirect("/contributors");
+        }
+        public IActionResult History()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Update(Contributor contributor)
+        {
+            var mgr = new SimchaFundMgr(_connectionString);
+            mgr.UpdateContributor(contributor);
             return Redirect("/contributors");
         }
     }
