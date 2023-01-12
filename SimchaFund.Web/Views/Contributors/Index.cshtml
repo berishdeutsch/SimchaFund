@@ -29,9 +29,9 @@
                         <td><button class="btn btn-success deposit-button" data-contribid="@c.Id">Deposit</button></td>
                         <td>@c.FirstName @c.LastName</td>
                         <td>@c.Cell</td>
-                        <td>Balance</td>
+                        <td>@c.Balance.ToString("C")</td>
                         <td style="text-align: center;">
-                            <span style="font-size: 25px;" class="@(c.AlwaysInclude ? "oi oi-check":"" )"></span>
+                            <span style="font-size: 25px;" class="@(c.AlwaysInclude ? "oi oi-check":"")"></span>
                         </td>
                         <td>
                             <a href="/contributors/history?contribid=@c.Id" class="btn btn-primary">Show History</a>

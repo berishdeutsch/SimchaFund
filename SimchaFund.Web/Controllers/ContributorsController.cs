@@ -34,9 +34,14 @@ namespace SimchaFund.Web.Controllers
             mgr.AddDeposit(deposit);
             return Redirect("/contributors");
         }
-        public IActionResult History()
+        public IActionResult History(int contribid)
         {
-            return View();
+            var mgr = new SimchaFundMgr(_connectionString);
+            return View(new HistoryViewModel
+            {
+                Contributor = mgr.GetContributorById(contribid),
+                Simchas = mgr.GetSimchasById(contribid)
+            });
         }
 
         [HttpPost]

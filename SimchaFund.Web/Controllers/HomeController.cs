@@ -30,9 +30,13 @@ namespace SimchaFund.Web.Controllers
             mgr.AddSimcha(simcha);
             return Redirect("/");
         }
-        public IActionResult Contributions()
+        public IActionResult Contributions(int simchaId)
         {
-            return View();
+            var mgr = new SimchaFundMgr(_connectionString);
+            return View(new ContributionsViewModel
+            {
+                Simcha = mgr.GetSimchaById(simchaId)
+            });
         }
     }
 }

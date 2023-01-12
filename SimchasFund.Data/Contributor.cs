@@ -15,6 +15,7 @@ namespace SimchasFund.Data
         public DateTime Date { get; set; }
         public decimal initialDeposit { get; set; }
         public bool AlwaysInclude { get; set; }
+        public decimal Balance { get; set; }
     
     }
 }
